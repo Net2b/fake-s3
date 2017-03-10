@@ -66,18 +66,18 @@ module FakeS3
         halt 404
       end
     end
-    
+
     def perform(env, s_req)
       response = Rack::Response.new
-      
+
       send(:"do_#{s_req.http_verb}", s_req, response)
-      
+
       response.finish
     end
 
     def do_GET(s_req, response)
       request = s_req.rack_request
-      
+
       case s_req.type
       when 'LIST_BUCKETS'
         response.status = 200
@@ -342,7 +342,7 @@ module FakeS3
       puts "----------End Dump -------------"
     end
   end
-  
+
   class App
     def initialize(store, hostname)
       @servlet = Servlet.new(nil, store, hostname)
@@ -365,7 +365,7 @@ module FakeS3
       ENV['FAKE_S3_ROOT'] = @root
       ENV['FAKE_S3_HOSTNAME'] = @hostname
 
-      Thin::Logging.debug = :log 
+      Thin::Logging.debug = :log
       @server = Rack::Server.new(:Port => @port, :config => config_ru, :server => "thin")
 
       @server.start
