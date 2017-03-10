@@ -115,11 +115,13 @@ module FakeS3
           return
         end
 
+        stat = File::Stat.new(real_obj.io.path)
         response.status = 200
         response['Content-Type'] = real_obj.content_type
-        content_length = File::Stat.new(real_obj.io.path).size
+        content_length = stat.size
         response['Etag'] = real_obj.md5
         response['Accept-Ranges'] = "bytes"
+        response['Last-Modified'] = stat.mtime
 
         # Added Range Query support
         if range = request.env["HTTP_RANGE"]
