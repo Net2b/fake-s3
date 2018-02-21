@@ -89,8 +89,8 @@ module FakeS3
         real_obj.io = RateLimitableFile.open(File.join(obj_root,"content"),'rb')
         return real_obj
       rescue
-        puts $!
-        $!.backtrace.each { |line| puts line }
+        FakeS3.logger.debug { $! }
+        FakeS3.logger.debug { $!.backtrace.join("\n") }
         return nil
       end
     end
@@ -188,8 +188,8 @@ module FakeS3
         bucket.add(obj)
         return obj
       rescue
-        puts $!
-        $!.backtrace.each { |line| puts line }
+        FakeS3.logger.debug $!
+        FakeS3.logger.debug { $!.backtrace.join("\n") }
         return nil
       end
     end
@@ -201,8 +201,8 @@ module FakeS3
         object = bucket.find(object_name)
         bucket.remove(object)
       rescue
-        puts $!
-        $!.backtrace.each { |line| puts line }
+        FakeS3.logger.debug $!
+        FakeS3.logger.debug { $!.backtrace.join("\n") }
         return nil
       end
     end

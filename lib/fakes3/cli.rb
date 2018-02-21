@@ -14,7 +14,7 @@ module FakeS3
     def server
       root = nil
       if options[:root].nil?
-        puts "You must specify a root to use a file store (the current default)"
+        FakeS3.logger.error "You must specify a root to use a file store (the current default)"
         exit(-1)
       else
         root = File.expand_path(options[:root])
@@ -33,19 +33,19 @@ module FakeS3
         begin
           store.rate_limit = options[:limit]
         rescue
-          puts $!.message
+          FakeS3.logger.error $!.message
           exit(-1)
         end
       end
 
-      puts "Loading FakeS3 with #{root} on port #{options[:port]} with hostname #{hostname}"
+      FakeS3.logger.info "Loading FakeS3 with #{root} on port #{options[:port]} with hostname #{hostname}"
       server = FakeS3::Server.new(options[:port],root,hostname)
       server.serve
     end
 
     desc "version", "Report the current fakes3 version"
     def version
-      puts <<"EOF"
+      FakeS3.logger.info <<"EOF"
 ======================
 FakeS3 #{FakeS3::VERSION}
 

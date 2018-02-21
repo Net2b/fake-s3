@@ -31,16 +31,16 @@ module FakeS3
                   :path,:is_path_style,:query,:http_verb
 
     def inspect
-      puts "-----Inspect FakeS3 Request"
-      puts "Type: #{@type}"
-      puts "Is Path Style: #{@is_path_style}"
-      puts "Request Method: #{@method}"
-      puts "Bucket: #{@bucket}"
-      puts "Object: #{@object}"
-      puts "Src Bucket: #{@src_bucket}"
-      puts "Src Object: #{@src_object}"
-      puts "Query: #{@query}"
-      puts "-----Done"
+      "-----Inspect FakeS3 Request\n"+
+      "Type: #{@type}\n"+
+      "Is Path Style: #{@is_path_style}\n"+
+      "Request Method: #{@method}\n"+
+      "Bucket: #{@bucket}\n"+
+      "Object: #{@object}\n"+
+      "Src Bucket: #{@src_bucket}\n"+
+      "Src Object: #{@src_object}\n"+
+      "Query: #{@query}\n"+
+      "-----Done\n"
     end
   end
 
@@ -335,13 +335,15 @@ module FakeS3
     end
 
     def dump_request(request)
-      puts "----------Dump Request-------------"
-      puts request.request_method
-      puts request.path
+      strings = []
+      strings << "----------Dump Request-------------"
+      strings << request.request_method
+      strings << request.path
       request.each do |k,v|
-        puts "#{k}:#{v}"
+        strings << "#{k}:#{v}"
       end
-      puts "----------End Dump -------------"
+      strings << "----------End Dump -------------"
+      strings.join("\n")
     end
   end
 
